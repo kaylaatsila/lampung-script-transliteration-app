@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:get/get.dart';
-import 'package:transliteration/navigation_menu_controller.dart';
-import 'screens/home.dart';
+import 'package:transliteration/controllers/navigation_menu_controller.dart';
+import 'package:transliteration/screens/history.dart';
+import 'home.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -24,14 +25,16 @@ class _NavigationMenuState extends State<NavigationMenu> {
               index: controller.currentPageIndex,
               children: [
                 Home(),
-                Container(),
+                History(),
                 Container(),
               ],
-            )),
+            )
+          ),
 
           bottomNavigationBar: NavigationBar(
             onDestinationSelected: controller.changePageIndex,
             selectedIndex: controller.currentPageIndex,
+            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
             destinations: const <Widget>[
               NavigationDestination(
                 icon: Icon(FluentIcons.home_16_regular),

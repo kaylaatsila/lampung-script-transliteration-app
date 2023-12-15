@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:transliteration/navigation_menu.dart';
-import 'package:transliteration/navigation_menu_binding.dart';
+import 'screens/navigation_menu.dart';
+import 'controllers/navigation_menu_binding.dart';
+import 'screens/history_menu.dart';
+import 'controllers/history_menu_bindings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,8 +30,15 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: "/", 
-          page: ()=>const NavigationMenu(),
-          binding: NavigationMenuBinding())
+          page: ()=> NavigationMenu(),
+          binding: NavigationMenuBinding(),
+        ),
+        GetPage(
+          name: "/HistoryMenu",
+          page: ()=> HistoryMenu(),
+          binding: HistoryMenuBinding(),
+          transition: Transition.noTransition
+        )
       ]
     );
   }
