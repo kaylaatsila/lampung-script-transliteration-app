@@ -30,12 +30,12 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: "/", 
-          page: ()=> NavigationMenu(),
+          page: ()=> const NavigationMenu(),
           binding: NavigationMenuBinding(),
         ),
         GetPage(
           name: "/HistoryMenu",
-          page: ()=> HistoryMenu(),
+          page: ()=> const HistoryMenu(),
           binding: HistoryMenuBinding(),
           transition: Transition.noTransition
         )

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:get/get.dart';
-import 'package:transliteration/controllers/navigation_menu_controller.dart';
-import 'package:transliteration/screens/history.dart';
+import '../controllers/navigation_menu_controller.dart';
 import 'home.dart';
+import 'history.dart';
+import 'user.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -26,7 +27,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
               children: [
                 Home(),
                 History(),
-                Container(),
+                User(),
               ],
             )
           ),

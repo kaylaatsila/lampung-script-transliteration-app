@@ -16,42 +16,40 @@ class Home extends GetView<HomeController> {
                     const TextStyle(fontWeight: FontWeight.w500))),
           ),
           SliverToBoxAdapter(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Center(
-                      child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(FluentIcons.document_add_16_regular),
-                        label: Text('Select file to transliterate',
-                            style: Theme.of(context).textTheme.titleLarge?.apply(
-                              color: Theme.of(context).colorScheme.primary)),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
-                        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Center(
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(FluentIcons.document_add_16_regular),
+                      label: Text('Select file to transliterate',
+                          style: Theme.of(context).textTheme.titleLarge?.apply(
+                            color: Theme.of(context).colorScheme.primary)),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
                       ),
                     ),
                   ),
-                  // const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: TextButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(FluentIcons.arrow_right_16_filled),
-                          label: const Text('See previous results'),
-                          style: TextButton.styleFrom(
-                              textStyle:
-                                  Theme.of(context).textTheme.bodyLarge?.merge(
-                                    const TextStyle(fontWeight: FontWeight.w500)))),
-                    ),
-                  )
-                ],
-              ),
+                ),
+                // const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: TextButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(FluentIcons.arrow_right_16_filled),
+                        label: const Text('See previous results'),
+                        style: TextButton.styleFrom(
+                            textStyle:
+                                Theme.of(context).textTheme.bodyLarge?.merge(
+                                  const TextStyle(fontWeight: FontWeight.w500)))),
+                  ),
+                )
+              ],
             )
           ),
           SliverPadding(

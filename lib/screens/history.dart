@@ -17,7 +17,7 @@ class History extends GetView<HistoryController> {
                 onPressed: () {
                   Get.toNamed("/HistoryMenu");
                 },
-                icon: const Icon(FluentIcons.more_vertical_24_regular),
+                icon: const Icon(FluentIcons.delete_16_filled),
               )
             ],
           ),
