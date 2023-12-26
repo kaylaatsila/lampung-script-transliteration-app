@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'screens/navigation_menu.dart';
-import 'controllers/navigation_menu_binding.dart';
-import 'screens/history_menu.dart';
-import 'controllers/history_menu_bindings.dart';
+import 'package:transliteration/bindings/history_menu_binding.dart';
+import 'package:transliteration/bindings/main_menu_binding.dart';
+import 'package:transliteration/bindings/onboarding_binding.dart';
+import 'package:transliteration/screens/history_menu.dart';
+import 'package:transliteration/screens/main_menu.dart';
+import 'package:transliteration/screens/onboarding.dart';
 
-void main() {
+void main(){
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -30,8 +31,13 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: "/", 
-          page: ()=> const NavigationMenu(),
-          binding: NavigationMenuBinding(),
+          page: ()=>  Onboarding(),
+          binding: OnboardingBinding(),
+        ),
+        GetPage(
+          name: "/MainMenu", 
+          page: ()=> const MainMenu(),
+          binding: MainMenuBinding(),
         ),
         GetPage(
           name: "/HistoryMenu",
@@ -43,4 +49,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

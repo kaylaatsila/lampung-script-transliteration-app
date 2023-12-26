@@ -3,27 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/user_controller.dart';
 
-enum OccupationLabel {
-  student('Student', FluentIcons.book_20_filled),
-  teacher('Teacher', FluentIcons.presenter_20_filled),
-  researcher('Researcher', FluentIcons.beaker_20_filled);
-
-  const OccupationLabel(this.label, this.icon);
-  final String label;
-  final IconData icon;
-}
-
-enum DomicileLabel {
-  lampung('Lampung'),
-  southSumatera('South Sumatera');
-
-  const DomicileLabel(this.label);
-  final String label;
-}
-
 class User extends GetView<UserController> {
-  String? selectedOccupation = '';
-  String? selectedDomicile = '';
 
   @override
   Widget build(BuildContext context) {
@@ -38,56 +18,57 @@ class User extends GetView<UserController> {
         ),
       ),
       SliverToBoxAdapter(
-          child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          DropdownMenu(
-            dropdownMenuEntries: OccupationLabel.values.map<DropdownMenuEntry<OccupationLabel>>(
-              (OccupationLabel occupation) {
-                return DropdownMenuEntry<OccupationLabel>(
-                    value: occupation,
-                    label: occupation.label,
-                    leadingIcon: Icon(occupation.icon),
-                    style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.all(16))));
-              },
-            ).toList(),
-            leadingIcon: const Icon(FluentIcons.briefcase_20_filled),
-            label: const Text('Occupation'),
-            expandedInsets: EdgeInsets.all(4),
-            inputDecorationTheme: InputDecorationTheme(
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Wrap(
+            runSpacing: 16,
+            children: [
+            DropdownMenu(
+              dropdownMenuEntries: controller.occupationList.map(
+                (String occupation) {
+                  return DropdownMenuEntry(
+                      value: occupation,
+                      label: occupation,
+                      style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.all(16))));
+                },
+              ).toList(),
+              leadingIcon: const Icon(FluentIcons.briefcase_20_filled),
+              label: const Text('Pekerjaan'),
+              expandedInsets: const EdgeInsets.all(4),
+              inputDecorationTheme:
+                  InputDecorationTheme(border: OutlineInputBorder(borderRadius: BorderRadius.circular(16))),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          DropdownMenu(
-            dropdownMenuEntries: DomicileLabel.values.map<DropdownMenuEntry<DomicileLabel>>(
-              (DomicileLabel domicile) {
-                return DropdownMenuEntry<DomicileLabel>(
-                    value: domicile,
-                    label: domicile.label,
-                    style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.all(16))));
-              },
-            ).toList(),
-            leadingIcon: const Icon(FluentIcons.building_multiple_20_filled),
-            label: const Text('Domicile'),
-            expandedInsets: EdgeInsets.all(4),
-            inputDecorationTheme: InputDecorationTheme(
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))
+            DropdownMenu(
+              dropdownMenuEntries: controller.domicileList.map(
+                (String domicile) {
+                  return DropdownMenuEntry(
+                      value: domicile,
+                      label: domicile,
+                      style: const ButtonStyle(padding: MaterialStatePropertyAll(
+                        EdgeInsets.all(16))));
+                },
+              ).toList(),
+              leadingIcon: const Icon(FluentIcons.building_multiple_20_filled),
+              label: const Text('Domisili'),
+              expandedInsets: const EdgeInsets.all(4),
+              inputDecorationTheme:
+                  InputDecorationTheme(border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16))),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.icon(
-              onPressed: null,
-              icon: const Icon(FluentIcons.save_16_regular),
-              label: const Text('Save')),
-          )
-        ]),
+            Container(
+              alignment: Alignment.centerRight,
+              child: FilledButton.icon(
+                    onPressed: (){}, 
+                    icon: const Icon(FluentIcons.save_16_regular), 
+                    label: const Text('Simpan'),
+                    style: ButtonStyle(
+                      padding: const MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 24, vertical: 16)),
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)))),
+              ),
+            ),
+          ]),
       )),
     ]));
   }
