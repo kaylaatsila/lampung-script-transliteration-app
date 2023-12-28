@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:transliteration/bindings/history_menu_binding.dart';
+import 'package:transliteration/bindings/history_binding.dart';
 import 'package:transliteration/bindings/main_menu_binding.dart';
 import 'package:transliteration/bindings/onboarding_binding.dart';
 import 'package:transliteration/screens/history_menu.dart';
@@ -27,11 +27,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Google Sans',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey, brightness: Brightness.dark),
       ),
-
       getPages: [
         GetPage(
           name: "/", 
-          page: ()=>  Onboarding(),
+          page: ()=> Onboarding(),
           binding: OnboardingBinding(),
         ),
         GetPage(
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: "/HistoryMenu",
           page: ()=> const HistoryMenu(),
-          binding: HistoryMenuBinding(),
+          binding: HistoryBinding(),
           transition: Transition.noTransition
         )
       ]

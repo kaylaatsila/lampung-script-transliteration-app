@@ -1,9 +1,12 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/home_controller.dart';
+import 'package:transliteration/controllers/home_controller.dart';
+import 'package:transliteration/controllers/transliteration_controller.dart';
 
 class Home extends GetView<HomeController> {
+  TransliterationController transliterationController = Get.put(TransliterationController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,23 +44,57 @@ class Home extends GetView<HomeController> {
               //         shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)))),
               //   ),
               // ),
-              
+
               TextField(
+                controller: transliterationController.text,
                 decoration: InputDecoration(
                     hintText: 'Silakan ketik teks yang ingin anda transliterasi di sini',
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(16))),
-                    maxLines: 4,
-                    autofocus: true,
+                maxLines: 4,
               ),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed: () {},
                   icon: const Icon(FluentIcons.send_20_regular),
                   label: const Text('Proses'),
                   style: ButtonStyle(
                       padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 24, vertical: 16)),
                       shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)))),
+                  onPressed: () {
+                    Get.bottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Theme.of(context).colorScheme.background,
+                        Padding(
+                          padding: const EdgeInsets.all(32),
+                          child: Wrap(
+                            runSpacing: 16,
+                            children: [
+                              SizedBox(
+                                child: Text(
+                                  transliterationController.text.text
+                                ),
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: TextField(
+                                  controller: transliterationController.fileName,
+                                  decoration: InputDecoration(
+                                      hintText: 'Masukkan nama dokumen',
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16))),
+                                  maxLines: 1,
+                                ),
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: FilledButton(
+                                  onPressed: () async {transliterationController.writeText();},
+                                  child: const Text('Simpan'),
+                                ),
+                              )
+                            ],
+                          ),
+                        ));
+                  },
                 ),
               )
             ],
