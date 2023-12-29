@@ -6,8 +6,11 @@ import 'package:transliteration/bindings/onboarding_binding.dart';
 import 'package:transliteration/screens/history_menu.dart';
 import 'package:transliteration/screens/main_menu.dart';
 import 'package:transliteration/screens/onboarding.dart';
+import 'package:transliteration/utils/db.dart';
 
-void main(){
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper().initDB();
   runApp(const MyApp());
 }
 
@@ -35,12 +38,12 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: "/MainMenu", 
-          page: ()=> const MainMenu(),
+          page: ()=> MainMenu(),
           binding: MainMenuBinding(),
         ),
         GetPage(
           name: "/HistoryMenu",
-          page: ()=> const HistoryMenu(),
+          page: ()=> HistoryMenu(),
           binding: HistoryBinding(),
           transition: Transition.noTransition
         )

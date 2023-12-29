@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/onboarding_controller.dart';
+import 'package:transliteration/controllers/onboarding_controller.dart';
 
 class Onboarding extends GetView<OnboardingController> {
   @override

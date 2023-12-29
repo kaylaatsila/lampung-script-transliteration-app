@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:transliteration/controllers/history_controller.dart';
+import 'package:transliteration/controllers/home_controller.dart';
 
 class OnboardingController extends GetxController {
   final String title = 'Selamat Datang';
   final String subtitle = 'di Aplikasi Transliterasi Bahasa Indonesia ke Aksara Lampung';
   final String body = 'Ubah teks dari bahasa Indonesia ke aksara Lampung dengan mudah. Coba fiturnya sekarang!';
 
-  late TextEditingController selectedOccupation;
-  late TextEditingController selectedDomicile;
-  late TextEditingController filledReason;
+  TextEditingController selectedOccupation = TextEditingController();
+  TextEditingController selectedDomicile = TextEditingController();
+  TextEditingController filledReason = TextEditingController();
 
   List<String> occupationList = ['Pelajar', 'Mahasiswa', 'Guru', 'Praktisi'];
   List<String> domicileList = ['Lampung', 'Sumatera Selatan'];
@@ -41,15 +43,6 @@ class OnboardingController extends GetxController {
     } else {
       errorMessage('Semua data harus diisi');
     }
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-
-    selectedOccupation = TextEditingController();
-    selectedDomicile = TextEditingController();
-    filledReason = TextEditingController();
   }
 
   // Future<void> skipOnboarding() async {
