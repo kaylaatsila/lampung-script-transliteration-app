@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:transliteration/controllers/history_controller.dart';
+import 'package:transliteration/controllers/home_controller.dart';
 import 'package:transliteration/utils/db.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:transliteration/services/transliteration_provider.dart';
@@ -23,13 +24,13 @@ class TransliterationController extends GetxController {
   }
 
   storeStorage() async {
-    getPermission();
+    await getPermission();
     Map<String, String> paths = await TransliterationProvider().postFile(text.text, fileName.text);
     storeDB(paths);
   }
 
   storeDB(Map<String, String> paths) async {
-    getPermission();
+    await getPermission();
 
     try {
       String inputPath = paths['inputPath'] ?? '';
@@ -44,10 +45,14 @@ class TransliterationController extends GetxController {
       );
 
       DatabaseHelper dbHelper = DatabaseHelper();
-      HistoryController historyController = HistoryController();
-
       await dbHelper.insertTransliteration(transliteration);
-      historyController.getAllData();
+      
+      print('New transliteration stored');
+      
+      HomeController homeController = Get.find();
+      homeController.getNewestData(); // Check if this function is being invoked
+      HistoryController historyController = Get.find();
+      historyController.getAllData(); // Check if this function is being invoked
       
     } catch (e) {
       print(e.toString());

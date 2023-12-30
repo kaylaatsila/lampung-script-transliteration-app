@@ -11,11 +11,6 @@ class HistoryMenu extends GetView<HistoryMenuController> {
       SliverAppBar(
         title: Text(controller.title,
             style: Theme.of(context).textTheme.titleLarge?.merge(const TextStyle(fontWeight: FontWeight.w500))),
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(FluentIcons.arrow_left_16_filled)),
       )
     ]));
   }

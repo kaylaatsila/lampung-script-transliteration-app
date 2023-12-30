@@ -14,11 +14,14 @@ class HomeController extends GetxController {
   }
 
   getNewestData() async {
-    DatabaseHelper dbHelper = DatabaseHelper();
+    try {
+      DatabaseHelper dbHelper = DatabaseHelper();
+      List<Map<String, dynamic>> newestRecords = await dbHelper.fetchNewestTransliterations(3);
+      dataList.assignAll(newestRecords.map((e) => Transliteration.fromMap(e)).toList());
 
-    List<Map<String, dynamic>> newestRecords = await dbHelper.fetchNewestTransliterations(3);
-    dataList.assignAll(newestRecords.map((e) => Transliteration.fromMap(e)).toList());
-
-    print(dataList.length);
+      update(); // Trigger UI update
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

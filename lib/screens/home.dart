@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:transliteration/controllers/history_controller.dart';
+import 'package:transliteration/controllers/history_detail_controller.dart';
 import 'package:transliteration/controllers/home_controller.dart';
 import 'package:transliteration/controllers/main_menu_controller.dart';
 import 'package:transliteration/controllers/transliteration_controller.dart';
@@ -15,8 +16,10 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   TransliterationController transliterationController = Get.put(TransliterationController());
-  HistoryController historyController = Get.put(HistoryController());
-  MainMenuController mainMenuController = Get.put(MainMenuController());
+  HistoryDetailController historyDetailController = Get.put(HistoryDetailController());
+  MainMenuController mainMenuController = Get.find();
+  HomeController homeController = Get.find();
+  HistoryController historyController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +76,12 @@ class _Home extends State<Home> {
                                   width: double.infinity,
                                   child: FilledButton(
                                     onPressed: () async {
-                                      await transliterationController.storeStorage();
-                                      await historyController.getAllData();
-                                      await controller.getNewestData();
                                       FocusManager.instance.primaryFocus?.unfocus();
                                       Get.back();
-                                      mainMenuController.changePageIndex(1);
+                                      await mainMenuController.changePageIndex(1);
+                                      transliterationController.storeStorage();
+                                      historyController.getAllData();
+                                      controller.getNewestData();
                                     },
                                     child: const Text('Simpan'),
                                   ),
@@ -100,9 +103,12 @@ class _Home extends State<Home> {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () async{
+                    await mainMenuController.changePageIndex(1);
+                    historyController.getAllData();
+                  },
                   icon: const Icon(FluentIcons.arrow_right_16_filled),
-                  label: const Text('Lihat riwayat sebelumnya'),
+                  label: const Text('Lihat semua riwayat sebelumnya'),
                   style: TextButton.styleFrom(
                       textStyle:
                           Theme.of(context).textTheme.bodyLarge?.merge(const TextStyle(fontWeight: FontWeight.w500)))),
@@ -110,22 +116,27 @@ class _Home extends State<Home> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-          sliver: SliverList.builder(
-              itemCount: controller.dataList.length,
-              itemBuilder: (_, int index) {
-                return Card(
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    leading: const Icon(FluentIcons.document_pdf_16_regular),
-                    title: Text(
-                      controller.dataList[index].outputName,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                );
-              }),
-        )
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+            sliver: Obx(
+              () => SliverList.builder(
+                  itemCount: controller.dataList.length,
+                  itemBuilder: (_, int index) {
+                    return Card(
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        leading: const Icon(FluentIcons.document_pdf_16_regular),
+                        title: Text(
+                          '${controller.dataList[index].outputName}.pdf',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        onTap: () async {
+                            await historyDetailController.getData(historyController.dataList[index].transliterationID);
+                            await Get.toNamed("/HistoryDetail");
+                          },
+                      ),
+                    );
+                  }),
+            ))
       ]));
     });
   }

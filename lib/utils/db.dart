@@ -57,7 +57,7 @@ class DatabaseHelper {
     return await db.query(transliterationTable, orderBy: '$timestamp DESC', limit: limit);
   }
 
-  Future<List<Map<String, dynamic>>> getTransliteration(int id) async {
+  Future<List<Map<String, dynamic>>> readTransliteration(int id) async {
     Database db = await database;
 
     return await db.query(transliterationTable, where: 'id = ?', whereArgs: [id], limit: 1);

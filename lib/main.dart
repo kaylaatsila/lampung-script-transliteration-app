@@ -3,15 +3,16 @@ import 'package:get/get.dart';
 import 'package:transliteration/bindings/history_binding.dart';
 import 'package:transliteration/bindings/main_menu_binding.dart';
 import 'package:transliteration/bindings/onboarding_binding.dart';
+import 'package:transliteration/screens/history_detail.dart';
 import 'package:transliteration/screens/history_menu.dart';
 import 'package:transliteration/screens/main_menu.dart';
 import 'package:transliteration/screens/onboarding.dart';
 import 'package:transliteration/utils/db.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();  
   await DatabaseHelper().initDB();
-  runApp(const MyApp());
+    runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -45,7 +46,13 @@ class MyApp extends StatelessWidget {
           name: "/HistoryMenu",
           page: ()=> HistoryMenu(),
           binding: HistoryBinding(),
-          transition: Transition.noTransition
+          transition: Transition.cupertino
+        ),
+        GetPage(
+          name: "/HistoryDetail",
+          page: ()=> HistoryDetail(),
+          binding: HistoryBinding(),
+          transition: Transition.cupertino
         )
       ]
     );
