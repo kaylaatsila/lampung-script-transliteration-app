@@ -101,12 +101,12 @@ class Onboarding extends GetView<OnboardingController> {
                                 Container(
                                   alignment: Alignment.centerRight,
                                   child: FilledButton.icon(
-                                    onPressed: () {
-                                      Get.offAllNamed('/MainMenu');
-                                      // controller.proceedOnboarding(
-                                      //   controller.selectedOccupation.text,
-                                      //   controller.selectedDomicile.text,
-                                      //   controller.filledReason.text);
+                                    onPressed: () async {
+                                      await controller.storeUserData(
+                                        controller.selectedOccupation.text,
+                                        controller.selectedDomicile.text,
+                                        controller.filledReason.text,
+                                      );
                                     },
                                     icon: const Icon(FluentIcons.save_16_regular),
                                     label: const Text('Simpan'),

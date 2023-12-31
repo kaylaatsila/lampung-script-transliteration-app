@@ -24,14 +24,11 @@ class TransliterationController extends GetxController {
   }
 
   storeStorage() async {
-    await getPermission();
     Map<String, String> paths = await TransliterationProvider().postFile(text.text, fileName.text);
     storeDB(paths);
   }
 
   storeDB(Map<String, String> paths) async {
-    await getPermission();
-
     try {
       String inputPath = paths['inputPath'] ?? '';
       String outputPath = paths['outputPath'] ?? '';

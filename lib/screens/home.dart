@@ -78,10 +78,10 @@ class _Home extends State<Home> {
                                     onPressed: () async {
                                       FocusManager.instance.primaryFocus?.unfocus();
                                       Get.back();
-                                      await mainMenuController.changePageIndex(1);
-                                      transliterationController.storeStorage();
+                                      await transliterationController.storeStorage();
                                       historyController.getAllData();
                                       controller.getNewestData();
+                                      mainMenuController.changePageIndex(1);
                                     },
                                     child: const Text('Simpan'),
                                   ),
@@ -103,7 +103,7 @@ class _Home extends State<Home> {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: TextButton.icon(
-                  onPressed: () async{
+                  onPressed: () async {
                     await mainMenuController.changePageIndex(1);
                     historyController.getAllData();
                   },
@@ -130,9 +130,9 @@ class _Home extends State<Home> {
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         onTap: () async {
-                            await historyDetailController.getData(historyController.dataList[index].transliterationID);
-                            await Get.toNamed("/HistoryDetail");
-                          },
+                          await historyDetailController.getData(historyController.dataList[index].transliterationID);
+                          await Get.toNamed("/HistoryDetail");
+                        },
                       ),
                     );
                   }),

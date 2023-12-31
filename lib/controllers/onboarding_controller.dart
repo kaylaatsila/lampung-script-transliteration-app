@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:transliteration/controllers/history_controller.dart';
-import 'package:transliteration/controllers/home_controller.dart';
+import 'package:transliteration/controllers/transliteration_controller.dart';
+import 'package:transliteration/controllers/user_controller.dart';
 
 class OnboardingController extends GetxController {
   final String title = 'Selamat Datang';
@@ -16,42 +16,45 @@ class OnboardingController extends GetxController {
   List<String> occupationList = ['Pelajar', 'Mahasiswa', 'Guru', 'Praktisi'];
   List<String> domicileList = ['Lampung', 'Sumatera Selatan'];
 
-  var isFirstTime = true.obs;
+  var storedOccupation = ''.obs;
+  var storedDomicile = ''.obs;
 
-  void errorMessage(String msg) {
+  final box = GetStorage();
+
+  TransliterationController transliterationController = Get.put(TransliterationController());
+
+  @override
+  onReady() async{
+    super.onReady();
+
+    await transliterationController.getPermission();
+
+    if (box.read('userData') != null) {
+      Map<String, dynamic> data = box.read('userData');
+      storedOccupation.value = data['occupation'];
+      storedDomicile.value = data['domicile'];
+
+      Get.offAllNamed('/MainMenu');
+    } else {
+      Get.toNamed('/Onboarding');
+    }
+  }
+
+  storeUserData(String occupation, String domicile, String reason) async {
+    if (occupation.isNotEmpty && domicile.isNotEmpty && reason.isNotEmpty) {
+      box.writeIfNull('userData', {'occupation': occupation, 'domicile': domicile, 'reason': reason});
+      print(box.read('userData'));
+
+      Get.offAllNamed('/MainMenu');
+    } else {
+      errorMessage('Something wrong');
+    }
+  }
+
+  errorMessage(String msg) {
     Get.defaultDialog(
       title: 'Error',
       middleText: msg,
     );
   }
-
-  void proceedOnboarding(String occupation, String domicile, String reason) async {
-    if (occupation.isNotEmpty && domicile.isNotEmpty && reason.isNotEmpty) {
-      isFirstTime.value = false;
-
-      await GetStorage.init();
-      final box = GetStorage();
-      box.write(
-        'userData',
-        {
-          'occupation': occupation,
-          'domicile': domicile,
-          'reason': reason,
-          'isFirstTime': isFirstTime.value,
-        },
-      );
-    } else {
-      errorMessage('Semua data harus diisi');
-    }
-  }
-
-  // Future<void> skipOnboarding() async {
-  //   final box = GetStorage();
-  //   if (box.read('userData') != null) {
-  //     final data = box.read('userData') as Map<String, dynamic>;
-  //     if (data['isFirsTime'] == false) {
-  //       isFilled.value = true;
-  //     }
-  //   }
-  // }
 }
