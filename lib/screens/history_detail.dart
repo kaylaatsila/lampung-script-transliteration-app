@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -14,6 +15,7 @@ class HistoryDetail extends GetView<HistoryDetailController> {
         body: CustomScrollView(slivers: [
       SliverAppBar(
         title: Text(controller.dataList[0].outputName,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.headlineMedium?.merge(const TextStyle(fontWeight: FontWeight.w500))),
         pinned: true,
         actions: [

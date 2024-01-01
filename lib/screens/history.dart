@@ -36,31 +36,31 @@ class _History extends State<History> {
               ],
             ),
             SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                sliver: Obx(
-                  () => SliverList.builder(
-                    itemCount: controller.dataList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                          leading: const Icon(FluentIcons.document_pdf_16_regular),
-                          title: Text(
-                            '${controller.dataList[index].outputName}.pdf',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          subtitle: Text(DateFormat('E, dd MMM yyy HH:mm').format(
-                              DateTime.parse(controller.dataList[index].timestamp).toLocal()
-                            ).toString()),
-                          onTap: () async {
-                            await historyDetailController.getData(controller.dataList[index].transliterationID);
-                            await Get.toNamed("/HistoryDetail");
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ))
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              sliver: SliverList.builder(
+                itemCount: controller.dataList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      leading: const Icon(FluentIcons.document_pdf_16_regular),
+                      title: Text(
+                        '${controller.dataList[index].outputName}.pdf',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      subtitle: Text(DateFormat('E, dd MMM yyy HH:mm')
+                          .format(DateTime.parse(controller.dataList[index].timestamp).toLocal())
+                          .toString()),
+                      onTap: () async {
+                        await historyDetailController.getData(controller.dataList[index].transliterationID);
+                        await Get.toNamed("/HistoryDetail");
+                      },
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       );

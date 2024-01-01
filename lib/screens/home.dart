@@ -15,11 +15,11 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  TransliterationController transliterationController = Get.put(TransliterationController());
-  HistoryDetailController historyDetailController = Get.put(HistoryDetailController());
-  MainMenuController mainMenuController = Get.find();
-  HomeController homeController = Get.find();
   HistoryController historyController = Get.find();
+  HistoryDetailController historyDetailController = Get.put(HistoryDetailController());
+  HomeController homeController = Get.find();
+  MainMenuController mainMenuController = Get.find();
+  TransliterationController transliterationController = Get.put(TransliterationController());
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +79,17 @@ class _Home extends State<Home> {
                                       FocusManager.instance.primaryFocus?.unfocus();
                                       Get.back();
                                       await transliterationController.storeStorage();
-                                      historyController.getAllData();
-                                      controller.getNewestData();
                                       mainMenuController.changePageIndex(1);
+
+                                      Get.snackbar(
+                                        'Berhasil', 
+                                        '${transliterationController.fileName.text}.pdf ditambahkan',
+                                        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                                        snackStyle: SnackStyle.FLOATING,
+                                        snackPosition: SnackPosition.TOP,
+                                        margin: const EdgeInsets.all(16),
+                                        duration: const Duration(milliseconds: 1500),
+                                        animationDuration: const Duration(milliseconds: 500));
                                     },
                                     child: const Text('Simpan'),
                                   ),
@@ -116,27 +124,27 @@ class _Home extends State<Home> {
           ),
         ),
         SliverPadding(
-            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-            sliver: Obx(
-              () => SliverList.builder(
-                  itemCount: controller.dataList.length,
-                  itemBuilder: (_, int index) {
-                    return Card(
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                        leading: const Icon(FluentIcons.document_pdf_16_regular),
-                        title: Text(
-                          '${controller.dataList[index].outputName}.pdf',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        onTap: () async {
-                          await historyDetailController.getData(historyController.dataList[index].transliterationID);
-                          await Get.toNamed("/HistoryDetail");
-                        },
-                      ),
-                    );
-                  }),
-            ))
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          sliver: SliverList.builder(
+              itemCount: controller.dataList.length,
+              itemBuilder: (_, int index) {
+                return Card(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    leading: const Icon(FluentIcons.document_pdf_16_regular),
+                    title: Text(
+                      '${controller.dataList[index].outputName}.pdf',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    onTap: () async {
+                      await historyDetailController.getData(historyController.dataList[index].transliterationID);
+                      await Get.toNamed("/HistoryDetail");
+                    },
+                  ),
+                );
+              }),
+        )
       ]));
     });
   }

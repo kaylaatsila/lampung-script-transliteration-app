@@ -3,15 +3,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class UserController extends GetxController {
-  final String title = 'Profil Pengguna';
-
-  TextEditingController selectedOccupation = TextEditingController();
-  TextEditingController selectedDomicile = TextEditingController();
-
-  List<String> occupationList = ['Pelajar', 'Mahasiswa', 'Guru', 'Praktisi'];
-  List<String> domicileList = ['Lampung', 'Sumatera Selatan'];
-
   final box = GetStorage();
+  List<String> domicileList = ['Lampung', 'Sumatera Selatan'];
+  List<String> occupationList = ['Pelajar', 'Mahasiswa', 'Guru', 'Praktisi'];
+  TextEditingController selectedDomicile = TextEditingController();
+  TextEditingController selectedOccupation = TextEditingController();
+  final String title = 'Profil Pengguna';
 
   updateUserData(String occupation, String domicile) {
     Map<String, dynamic> data = box.read('userData');

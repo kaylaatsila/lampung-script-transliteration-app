@@ -3,9 +3,8 @@ import 'package:transliteration/models/transliteration.dart';
 import 'package:transliteration/utils/db.dart';
 
 class HomeController extends GetxController {
-  final String title = 'Beranda';
-
   List dataList = <Transliteration>[].obs;
+  final String title = 'Beranda';
 
   @override
   onInit() {

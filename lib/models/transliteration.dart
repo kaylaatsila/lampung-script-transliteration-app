@@ -1,10 +1,4 @@
 class Transliteration {
-  int? transliterationID = 0;
-  String inputPath = '';
-  String outputPath = '';
-  String outputName = '';
-  String timestamp = '';
-
   Transliteration({
     required this.inputPath, 
     required this.outputPath, 
@@ -12,7 +6,21 @@ class Transliteration {
     required this.timestamp
   });
 
+  Transliteration.fromMap(Map<String, dynamic> map){
+    transliterationID = map['id'];
+    inputPath = map['input_path'];
+    outputPath = map['output_path'];
+    outputName = map['output_name'];
+    timestamp = map['timestamp'];
+  }
+
   Transliteration.withId(this.transliterationID, this.inputPath, this.outputPath, this.outputName, this.timestamp);
+
+  String inputPath = '';
+  String outputName = '';
+  String outputPath = '';
+  String timestamp = '';
+  int? transliterationID = 0;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
@@ -23,13 +31,5 @@ class Transliteration {
     map['timestamp'] = timestamp;
 
     return map;
-  }
-
-  Transliteration.fromMap(Map<String, dynamic> map){
-    transliterationID = map['id'];
-    inputPath = map['input_path'];
-    outputPath = map['output_path'];
-    outputName = map['output_name'];
-    timestamp = map['timestamp'];
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:transliteration/controllers/transliteration_controller.dart';
-import 'package:transliteration/controllers/user_controller.dart';
 
 class OnboardingController extends GetxController {
   final String title = 'Selamat Datang';

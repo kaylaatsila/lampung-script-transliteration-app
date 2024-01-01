@@ -8,8 +8,8 @@ import 'package:transliteration/services/transliteration_provider.dart';
 import 'package:transliteration/models/transliteration.dart';
 
 class TransliterationController extends GetxController {
-  TextEditingController text = TextEditingController();
   TextEditingController fileName = TextEditingController();
+  TextEditingController text = TextEditingController();
 
   getPermission() async {
     PermissionStatus permissionStatus = await Permission.storage.status;
@@ -43,14 +43,15 @@ class TransliterationController extends GetxController {
 
       DatabaseHelper dbHelper = DatabaseHelper();
       await dbHelper.insertTransliteration(transliteration);
-      
-      print('New transliteration stored');
-      
-      HomeController homeController = Get.find();
-      homeController.getNewestData(); // Check if this function is being invoked
+
       HistoryController historyController = Get.find();
-      historyController.getAllData(); // Check if this function is being invoked
-      
+      HomeController homeController = Get.find();
+      await historyController.getAllData();
+      await homeController.getNewestData();
+
+      print('New transliteration stored');
+
+      update();
     } catch (e) {
       print(e.toString());
     }

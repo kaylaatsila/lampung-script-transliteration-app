@@ -3,10 +3,9 @@ import 'package:transliteration/models/transliteration.dart';
 import 'package:transliteration/utils/db.dart';
 
 class HistoryController extends GetxController {
-  final String title = 'Riwayat';
-
   List dataList = <Transliteration>[].obs;
   var isLoading = true.obs;
+  final String title = 'Riwayat';
 
   @override
   onInit() {

@@ -15,6 +15,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
+
   OnboardingController onboardingController = Get.put(OnboardingController());
 
   @override

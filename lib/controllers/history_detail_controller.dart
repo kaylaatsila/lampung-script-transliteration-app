@@ -3,9 +3,8 @@ import 'package:transliteration/models/transliteration.dart';
 import 'package:transliteration/utils/db.dart';
 
 class HistoryDetailController extends GetxController {
-  final String title = 'Detail';
-
   List dataList = <Transliteration>[].obs;
+  final String title = 'Detail';
 
   getData(int id) async {
     DatabaseHelper dbHelper = DatabaseHelper();
