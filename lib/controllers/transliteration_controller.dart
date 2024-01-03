@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:transliteration/controllers/history_controller.dart';
@@ -9,7 +10,8 @@ import 'package:transliteration/models/transliteration.dart';
 
 class TransliterationController extends GetxController {
   TextEditingController fileName = TextEditingController();
-  TextEditingController text = TextEditingController();
+  TextEditingController input = TextEditingController();
+  var isAvailable = true.obs;
 
   getPermission() async {
     PermissionStatus permissionStatus = await Permission.storage.status;
@@ -23,9 +25,27 @@ class TransliterationController extends GetxController {
     }
   }
 
+  getNameAvailability(String fileName) async {
+    try {
+      bool isNameAvailable = await DatabaseHelper().getTansliterationNameAvailability(fileName);
+      if (isNameAvailable) {
+        isAvailable.value = true;
+      } else {
+        isAvailable.value = false;
+      }
+    } catch (e) {
+      log(e.toString());
+      isAvailable.value = false;
+    }
+  }
+
   storeStorage() async {
-    Map<String, String> paths = await TransliterationProvider().postFile(text.text, fileName.text);
-    storeDB(paths);
+    try {
+      Map<String, String> paths = await TransliterationProvider().postFile(input.text, fileName.text);
+      storeDB(paths);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   storeDB(Map<String, String> paths) async {
@@ -41,19 +61,16 @@ class TransliterationController extends GetxController {
         timestamp: DateTime.now().toString(),
       );
 
-      DatabaseHelper dbHelper = DatabaseHelper();
-      await dbHelper.insertTransliteration(transliteration);
+      await DatabaseHelper().insertTransliteration(transliteration);
 
       HistoryController historyController = Get.find();
       HomeController homeController = Get.find();
       await historyController.getAllData();
       await homeController.getNewestData();
 
-      print('New transliteration stored');
-
       update();
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 }

@@ -17,12 +17,14 @@ class _HistoryMenu extends State<HistoryMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return GetBuilder<HistoryMenuController>(builder: (controller) {
       return Scaffold(
           body: CustomScrollView(slivers: [
         SliverAppBar(
           title: Text(controller.title,
-              style: Theme.of(context).textTheme.titleLarge?.merge(const TextStyle(fontWeight: FontWeight.w500))),
+              style: theme.textTheme.titleLarge?.merge(const TextStyle(fontWeight: FontWeight.w500))),
         ),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -35,23 +37,21 @@ class _HistoryMenu extends State<HistoryMenu> {
                   leading: const Icon(FluentIcons.document_pdf_16_regular),
                   title: Text(
                     '${historyController.dataList[index].outputName}.pdf',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: theme.textTheme.bodyMedium,
                   ),
                   subtitle: Text(DateFormat('E, dd MMM yyy HH:mm')
                       .format(DateTime.parse(historyController.dataList[index].timestamp).toLocal())
                       .toString()),
                   trailing: InkWell(
-                      onTap: () async {
-                        await controller.deleteData(historyController.dataList[index].transliterationID);
-                        Get.snackbar(
-                          'Berhasil', 
-                          '${historyController.dataList[index].outputName}.pdf terhapus',
-                          backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-                          snackStyle: SnackStyle.FLOATING,
-                          snackPosition: SnackPosition.TOP,
-                          margin: const EdgeInsets.all(16),
-                          duration: const Duration(milliseconds: 1500),
-                          animationDuration: const Duration(milliseconds: 500));
+                      onTap: () {
+                        controller.deleteData(historyController.dataList[index].transliterationID);
+                        Get.snackbar('Berhasil', '${historyController.dataList[index].outputName}.pdf terhapus',
+                            backgroundColor: theme.colorScheme.surfaceVariant,
+                            snackStyle: SnackStyle.FLOATING,
+                            snackPosition: SnackPosition.TOP,
+                            margin: const EdgeInsets.all(16),
+                            duration: const Duration(milliseconds: 1500),
+                            animationDuration: const Duration(milliseconds: 500));
                       },
                       child: const Icon(FluentIcons.delete_16_regular)),
                 ),

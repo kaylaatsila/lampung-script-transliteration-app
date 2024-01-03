@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:transliteration/controllers/history_controller.dart';
+import 'package:transliteration/controllers/home_controller.dart';
 import 'package:transliteration/models/transliteration.dart';
 import 'package:transliteration/utils/db.dart';
 
 class HistoryMenuController extends GetxController {
   List dataList = <Transliteration>[].obs;
   HistoryController historyController = Get.find();
+  HomeController homeController = Get.find();
   final String title = 'Hapus';
 
   @override
@@ -19,10 +23,11 @@ class HistoryMenuController extends GetxController {
       DatabaseHelper dbHelper = DatabaseHelper();
       await dbHelper.deleteTransliteration(id);
       await historyController.getAllData();
+      await homeController.getNewestData();
 
       update();
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 }

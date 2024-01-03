@@ -5,7 +5,9 @@ import 'package:transliteration/controllers/onboarding_controller.dart';
 import '../controllers/user_controller.dart';
 
 class User extends GetView<UserController> {
-  OnboardingController onboardingController = Get.find();
+  User({super.key});
+
+  final onboardingController = Get.put(OnboardingController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +63,7 @@ class User extends GetView<UserController> {
             alignment: Alignment.centerRight,
             child: FilledButton.icon(
               onPressed: () {
-                controller.updateUserData(
-                  controller.selectedOccupation.text, 
-                  controller.selectedDomicile.text
-                );
+                controller.updateUserData(controller.selectedOccupation.text, controller.selectedDomicile.text);
               },
               icon: const Icon(FluentIcons.save_16_regular),
               label: const Text('Simpan'),

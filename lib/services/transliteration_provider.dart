@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,6 +10,23 @@ import 'package:transliteration/models/file_storage.dart';
 const url = 'http://10.0.2.2:8000/api/transliterasi/';
 
 class TransliterationProvider {
+  Future<bool> checkUrl() async {
+    try {
+      http.Response response = await http.get(Uri.parse(url)).timeout(const Duration(milliseconds: 500));
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on TimeoutException catch (e) {
+      log('Timeout occurred while checking API: $e');
+      return false;
+    } catch (e) {
+      log('Error occurred while checking API: $e');
+      return false;
+    }
+  }
+
   Future<Map<String, String>> postFile(String text, String name) async {
     FileStorage storage = FileStorage();
 
@@ -40,12 +59,12 @@ class TransliterationProvider {
         String inputPath = txt.path;
         String outputPath = pdf.path;
 
-        print('$inputPath\n$outputPath\n$name.pdf');
+        log('$inputPath\n$outputPath\n$name.pdf');
 
         return {'inputPath': inputPath, 'outputPath': outputPath, 'outputName': name};
+      } else {
+        throw Exception('Tidak dapat terhubung dengan API');
       }
-
-      return {};
     } catch (e) {
       return Future.error(e.toString());
     }

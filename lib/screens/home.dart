@@ -23,12 +23,14 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return GetBuilder<HomeController>(builder: (controller) {
       return Scaffold(
           body: CustomScrollView(slivers: [
         SliverAppBar.medium(
           title: Text(controller.title,
-              style: Theme.of(context).textTheme.headlineMedium?.merge(const TextStyle(fontWeight: FontWeight.w500))),
+              style: theme.textTheme.headlineMedium?.merge(const TextStyle(fontWeight: FontWeight.w500))),
         ),
         SliverToBoxAdapter(
           child: Padding(
@@ -37,69 +39,117 @@ class _Home extends State<Home> {
               runSpacing: 16,
               children: [
                 TextField(
-                  controller: transliterationController.text,
+                  controller: transliterationController.input,
                   decoration: InputDecoration(
                       hintText: 'Silakan ketik teks yang ingin anda transliterasi di sini',
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(16))),
                   maxLines: 4,
+                  maxLength: 50000,
                 ),
                 SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    icon: const Icon(FluentIcons.send_20_regular),
-                    label: const Text('Proses'),
-                    style: ButtonStyle(
-                        padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 24, vertical: 16)),
-                        shape:
-                            MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)))),
-                    onPressed: () {
-                      Get.bottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: Theme.of(context).colorScheme.background,
-                          Padding(
-                            padding: const EdgeInsets.all(32),
-                            child: Wrap(
-                              runSpacing: 16,
-                              children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: TextField(
-                                    controller: transliterationController.fileName,
-                                    decoration: InputDecoration(
-                                        labelText: 'Nama Dokumen',
-                                        hintText: 'Beri nama untuk hasil transliterasi',
-                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16))),
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: FilledButton(
-                                    onPressed: () async {
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      Get.back();
-                                      await transliterationController.storeStorage();
-                                      mainMenuController.changePageIndex(1);
-
-                                      Get.snackbar(
-                                        'Berhasil', 
-                                        '${transliterationController.fileName.text}.pdf ditambahkan',
-                                        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-                                        snackStyle: SnackStyle.FLOATING,
-                                        snackPosition: SnackPosition.TOP,
-                                        margin: const EdgeInsets.all(16),
-                                        duration: const Duration(milliseconds: 1500),
-                                        animationDuration: const Duration(milliseconds: 500));
-                                    },
-                                    child: const Text('Simpan'),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ));
-                    },
-                  ),
-                )
+                    width: double.infinity,
+                    child: ValueListenableBuilder(
+                        valueListenable: transliterationController.input,
+                        builder: (_, value, child) {
+                          return FilledButton.icon(
+                              icon: const Icon(FluentIcons.send_20_regular),
+                              label: const Text('Proses'),
+                              style: ButtonStyle(
+                                  padding: const MaterialStatePropertyAll(
+                                      EdgeInsets.symmetric(horizontal: 24, vertical: 16)),
+                                  shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)))),
+                              onPressed: value.text.isNotEmpty
+                                  ? () {
+                                      Get.bottomSheet(
+                                          isScrollControlled: true,
+                                          backgroundColor: theme.colorScheme.background,
+                                          Padding(
+                                            padding: const EdgeInsets.all(32),
+                                            child: Wrap(
+                                              runSpacing: 16,
+                                              children: [
+                                                SizedBox(
+                                                  width: double.infinity,
+                                                  child: TextField(
+                                                    controller: transliterationController.fileName,
+                                                    decoration: InputDecoration(
+                                                        labelText: 'Nama Dokumen',
+                                                        hintText: 'Beri nama untuk hasil transliterasi',
+                                                        border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(16))),
+                                                    maxLines: 1,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    width: double.infinity,
+                                                    child: ValueListenableBuilder(
+                                                        valueListenable: transliterationController.fileName,
+                                                        builder: (_, value, child) {
+                                                          return FilledButton(
+                                                            onPressed: transliterationController
+                                                                    .fileName.text.isNotEmpty
+                                                                ? () async {
+                                                                    await controller.getConnectivity();
+                                                                    if (controller.connection.isFalse) {
+                                                                      FocusManager.instance.primaryFocus?.unfocus();
+                                                                      Get.back();
+                                                                      Get.snackbar('Gagal',
+                                                                          'Tidak dapat terkoneksi dengan sistem transliterasi',
+                                                                          backgroundColor:
+                                                                              theme.colorScheme.errorContainer,
+                                                                          snackStyle: SnackStyle.FLOATING,
+                                                                          snackPosition: SnackPosition.TOP,
+                                                                          margin: const EdgeInsets.all(16),
+                                                                          duration: const Duration(milliseconds: 1750),
+                                                                          animationDuration:
+                                                                              const Duration(milliseconds: 750));
+                                                                    } else {
+                                                                      await transliterationController
+                                                                          .getNameAvailability(
+                                                                              transliterationController.fileName.text);
+                                                                      if (transliterationController
+                                                                          .isAvailable.isTrue) {
+                                                                        await transliterationController.storeStorage();
+                                                                        mainMenuController.changePageIndex(1);
+                                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                                        Get.back();
+                                                                        Get.snackbar('Berhasil',
+                                                                            '${transliterationController.fileName.text}.pdf ditambahkan',
+                                                                            backgroundColor:
+                                                                                theme.colorScheme.surfaceVariant,
+                                                                            snackStyle: SnackStyle.FLOATING,
+                                                                            snackPosition: SnackPosition.TOP,
+                                                                            margin: const EdgeInsets.all(16),
+                                                                            duration:
+                                                                                const Duration(milliseconds: 1500),
+                                                                            animationDuration:
+                                                                                const Duration(milliseconds: 500));
+                                                                      } else {
+                                                                        Get.snackbar('Error',
+                                                                            '${transliterationController.fileName.text}.pdf sudah ada',
+                                                                            backgroundColor:
+                                                                                theme.colorScheme.errorContainer,
+                                                                            snackStyle: SnackStyle.FLOATING,
+                                                                            snackPosition: SnackPosition.TOP,
+                                                                            margin: const EdgeInsets.all(16),
+                                                                            duration:
+                                                                                const Duration(milliseconds: 1500),
+                                                                            animationDuration:
+                                                                                const Duration(milliseconds: 500));
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                : null,
+                                                            child: const Text('Simpan'),
+                                                          );
+                                                        }))
+                                              ],
+                                            ),
+                                          ));
+                                    }
+                                  : null);
+                        }))
               ],
             ),
           ),
@@ -118,8 +168,7 @@ class _Home extends State<Home> {
                   icon: const Icon(FluentIcons.arrow_right_16_filled),
                   label: const Text('Lihat semua riwayat sebelumnya'),
                   style: TextButton.styleFrom(
-                      textStyle:
-                          Theme.of(context).textTheme.bodyLarge?.merge(const TextStyle(fontWeight: FontWeight.w500)))),
+                      textStyle: theme.textTheme.bodyLarge?.merge(const TextStyle(fontWeight: FontWeight.w500)))),
             ),
           ),
         ),
@@ -135,7 +184,7 @@ class _Home extends State<Home> {
                     title: Text(
                       '${controller.dataList[index].outputName}.pdf',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: theme.textTheme.bodyMedium,
                     ),
                     onTap: () async {
                       await historyDetailController.getData(historyController.dataList[index].transliterationID);

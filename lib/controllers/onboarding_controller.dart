@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -42,7 +43,7 @@ class OnboardingController extends GetxController {
   storeUserData(String occupation, String domicile, String reason) async {
     if (occupation.isNotEmpty && domicile.isNotEmpty && reason.isNotEmpty) {
       box.writeIfNull('userData', {'occupation': occupation, 'domicile': domicile, 'reason': reason});
-      print(box.read('userData'));
+      log(box.read('userData'));
 
       Get.offAllNamed('/MainMenu');
     } else {

@@ -15,7 +15,7 @@ class AppPages {
   static final pages = [
     GetPage(
       name: "/",
-      page: () => Onboarding(),
+      page: () => const Onboarding(),
       binding: OnboardingBinding(),
     ),
     GetPage(
@@ -30,12 +30,12 @@ class AppPages {
     ),
     GetPage(
         name: "/HistoryMenu", 
-        page: () => HistoryMenu(), 
+        page: () => const HistoryMenu(), 
         binding: HistoryBinding(), 
         transition: Transition.cupertino),
     GetPage(
         name: "/HistoryDetail",
-        page: () => HistoryDetail(),
+        page: () => const HistoryDetail(),
         binding: HistoryBinding(),
         transition: Transition.cupertino)
   ];

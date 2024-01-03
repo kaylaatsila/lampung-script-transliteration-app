@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,9 +16,7 @@ class UserController extends GetxController {
     Map<String, dynamic> data = box.read('userData');
     
     box.listenKey('userData', (value) {
-      print('Data Updated!');
-      print('Occupation: ${value['occupation']}');
-      print('Occupation: ${value['domicile']}');
+      log('Data Updated! Occupation: ${value['occupation']} Domicile: ${value['domicile']}');
     });
 
     box.write('userData', {'occupation': occupation, 'domicile': domicile, 'reason': data['reason']});

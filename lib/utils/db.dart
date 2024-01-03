@@ -82,4 +82,17 @@ class DatabaseHelper {
 
     return Sqflite.firstIntValue(count);
   }
+
+  Future<bool> getTansliterationNameAvailability(String outputName) async {
+    Database db = await database;
+
+    List<Map<String, dynamic>> result =
+        await db.query(transliterationTable, where: 'output_name = ?', whereArgs: [outputName], limit: 1);
+
+    if (result.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

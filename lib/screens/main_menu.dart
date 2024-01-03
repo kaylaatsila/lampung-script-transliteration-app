@@ -22,8 +22,8 @@ class _MainMenuState extends State<MainMenu> {
             child: IndexedStack(
           index: controller.currentPageIndex,
           children: [
-            Home(),
-            History(),
+            const Home(),
+            const History(),
             User(),
           ],
         )),

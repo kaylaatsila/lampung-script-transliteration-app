@@ -1,15 +1,31 @@
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:transliteration/models/transliteration.dart';
+import 'package:transliteration/services/transliteration_provider.dart';
 import 'package:transliteration/utils/db.dart';
 
 class HomeController extends GetxController {
   List dataList = <Transliteration>[].obs;
+  var connection = true.obs;
   final String title = 'Beranda';
 
   @override
   onInit() {
     super.onInit();
     getNewestData();
+    getConnectivity();
+  }
+
+  getConnectivity() async {
+    bool isApiWorking = await TransliterationProvider().checkUrl();
+
+    if (isApiWorking) {
+      log('API is working!');
+      connection.value = true;
+    } else {
+      log('API is not reachable or not working.');
+      connection.value = false;
+    }
   }
 
   getNewestData() async {
@@ -20,7 +36,7 @@ class HomeController extends GetxController {
 
       update(); // Trigger UI update
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 }

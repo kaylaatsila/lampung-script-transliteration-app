@@ -16,7 +16,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  OnboardingController onboardingController = Get.put(OnboardingController());
+  final onboardingController = Get.put(OnboardingController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Google Sans',
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey, brightness: Brightness.dark),
         ),
-        home: Onboarding(),
+        home: const Onboarding(),
         getPages: AppPages.pages);
   }
 }

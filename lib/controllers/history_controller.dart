@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:transliteration/models/transliteration.dart';
 import 'package:transliteration/utils/db.dart';
@@ -22,7 +24,7 @@ class HistoryController extends GetxController {
       isLoading.value = false; // Assuming data retrieval is complete
       update(); // Trigger UI update
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 }
