@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:transliteration/controllers/history_controller.dart';
 import 'package:transliteration/controllers/home_controller.dart';
 import 'package:transliteration/utils/db.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:transliteration/services/transliteration_provider.dart';
 import 'package:transliteration/models/transliteration.dart';
 
@@ -12,18 +11,6 @@ class TransliterationController extends GetxController {
   TextEditingController fileName = TextEditingController();
   TextEditingController input = TextEditingController();
   var isAvailable = true.obs;
-
-  getPermission() async {
-    PermissionStatus permissionStatus = await Permission.storage.status;
-
-    if (permissionStatus.isDenied) {
-      Permission.storage.request();
-    }
-
-    if (permissionStatus.isPermanentlyDenied) {
-      openAppSettings();
-    }
-  }
 
   getNameAvailability(String fileName) async {
     try {

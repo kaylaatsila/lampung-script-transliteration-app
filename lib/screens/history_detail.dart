@@ -32,20 +32,22 @@ class HistoryDetail extends GetView<HistoryDetailController> {
         ],
       ),
       SliverSafeArea(
-          sliver: SliverToBoxAdapter(
-              child: File(controller.dataList[0].outputPath).existsSync()
-                  ? SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.85,
-                      child: SfPdfViewer.file(
-                        File(controller.dataList[0].outputPath),
-                        scrollDirection: PdfScrollDirection.horizontal,
-                        pageSpacing: 1,
-                      ),
-                    )
-                  : const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text('Dokumen terhapus dari penyimpanan'),
-                    )))
+        sliver: SliverToBoxAdapter(
+            child: File(controller.dataList[0].outputPath).existsSync()
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.85,
+                    child: SfPdfViewer.file(
+                      File(controller.dataList[0].outputPath),
+                      scrollDirection: PdfScrollDirection.horizontal,
+                      pageSpacing: 1,
+                    ),
+                  )
+                : const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text('Dokumen terhapus dari penyimpanan'),
+                  )
+        )
+      )
     ]));
   }
 }

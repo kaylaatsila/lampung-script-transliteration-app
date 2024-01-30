@@ -5,6 +5,7 @@ import 'package:transliteration/controllers/history_controller.dart';
 import 'package:transliteration/controllers/history_detail_controller.dart';
 import 'package:transliteration/controllers/home_controller.dart';
 import 'package:transliteration/controllers/main_menu_controller.dart';
+import 'package:transliteration/controllers/onboarding_controller.dart';
 import 'package:transliteration/controllers/transliteration_controller.dart';
 
 class Home extends StatefulWidget {
@@ -15,11 +16,12 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  MainMenuController mainMenuController = Get.find();
+  HomeController homeController = Get.find();
   HistoryController historyController = Get.find();
   HistoryDetailController historyDetailController = Get.put(HistoryDetailController());
-  HomeController homeController = Get.find();
-  MainMenuController mainMenuController = Get.find();
   TransliterationController transliterationController = Get.put(TransliterationController());
+  OnboardingController onboardingController = Get.put(OnboardingController());
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +92,7 @@ class _Home extends State<Home> {
                                                             onPressed: transliterationController
                                                                     .fileName.text.isNotEmpty
                                                                 ? () async {
+                                                                    await onboardingController.getPermission();
                                                                     await controller.getConnectivity();
                                                                     if (controller.connection.isFalse) {
                                                                       FocusManager.instance.primaryFocus?.unfocus();

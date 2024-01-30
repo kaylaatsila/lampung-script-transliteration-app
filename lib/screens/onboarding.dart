@@ -104,6 +104,7 @@ class Onboarding extends GetView<OnboardingController> {
                                   alignment: Alignment.centerRight,
                                   child: FilledButton.icon(
                                     onPressed: () async {
+                                      await controller.getPermission();
                                       await controller.storeUserData(
                                         controller.selectedOccupation.text,
                                         controller.selectedDomicile.text,

@@ -6,7 +6,6 @@ import 'package:transliteration/utils/db.dart';
 
 class HistoryController extends GetxController {
   List dataList = <Transliteration>[].obs;
-  var isLoading = true.obs;
   final String title = 'Riwayat';
 
   @override
@@ -21,8 +20,7 @@ class HistoryController extends GetxController {
       List<Map<String, dynamic>> transliterations = await dbHelper.fetchAllTransliteration();
       dataList.assignAll(transliterations.map((e) => Transliteration.fromMap(e)).toList());
 
-      isLoading.value = false; // Assuming data retrieval is complete
-      update(); // Trigger UI update
+      update();
     } catch (e) {
       log(e.toString());
     }

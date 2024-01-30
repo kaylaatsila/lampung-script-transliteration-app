@@ -35,7 +35,7 @@ class User extends GetView<UserController> {
                     style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.all(16))));
               },
             ).toList(),
-            initialSelection: onboardingController.storedOccupation.value,
+            initialSelection: controller.storedOccupation.value,
             leadingIcon: const Icon(FluentIcons.briefcase_20_filled),
             label: const Text('Pekerjaan'),
             expandedInsets: const EdgeInsets.all(4),
@@ -52,7 +52,7 @@ class User extends GetView<UserController> {
                     style: const ButtonStyle(padding: MaterialStatePropertyAll(EdgeInsets.all(16))));
               },
             ).toList(),
-            initialSelection: onboardingController.storedDomicile.value,
+            initialSelection: controller.storedDomicile.value,
             leadingIcon: const Icon(FluentIcons.building_multiple_20_filled),
             label: const Text('Domisili'),
             expandedInsets: const EdgeInsets.all(4),
